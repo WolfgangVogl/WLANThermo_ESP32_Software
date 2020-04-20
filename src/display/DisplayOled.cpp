@@ -18,7 +18,15 @@
     HISTORY: Please refer Github History
     
 ****************************************************/
-#include <esp_pm.h>
+
+#if defined(ESP8266)
+  // .... 
+#elif defined(ESP32)
+	#include <esp_pm.h>
+#else
+	#error "Only for ESP8266 or ESP32"
+#endif
+
 #include <OLEDDisplay.h>
 #include "DisplayOled.h"
 #include "DisplayOledIcons.h"

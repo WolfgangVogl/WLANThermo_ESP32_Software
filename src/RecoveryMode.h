@@ -20,6 +20,16 @@
 #pragma once
 #include <Arduino.h>
 
+#if defined(ESP8266)
+class RecoveryMode
+{
+public:
+  RecoveryMode(void) {};
+  static void run(){};
+  static void runFromApp(const char *paramWifiName, const char *paramWifiPassword){};
+  static void zeroResetCounter() { };
+};
+#elif defined(ESP32)
 enum class UploadFileType
 {
   None,
@@ -49,3 +59,4 @@ private:
   static RTC_DATA_ATTR boolean fromApp;
   static RTC_NOINIT_ATTR uint8_t resetCounter;
 };
+#endif

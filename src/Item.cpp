@@ -19,8 +19,16 @@
 ****************************************************/
 
 #include "Item.h"
+
+#if defined(ESP8266)
+// DUMMY IMPL
+Item::Item() {}
+void Item::write(ItemNvsKeys key, String itemString) {}
+String Item::read(ItemNvsKeys key) { return ""; }
+#elif defined(ESP32)
 #include "nvs.h"
 #include "Preferences.h"
+
 #include <memory>
 
 #define STRINGIFY(s) #s
@@ -77,3 +85,6 @@ String Item::read(ItemNvsKeys key)
   //Serial.printf("Settings::read: %s (%d bytes) - %s\n", NvsKeyStrings[key], sSize, s.get());
   return String(s.get());
 }
+#else
+	#error "Only for ESP8266 or ESP32"
+#endif

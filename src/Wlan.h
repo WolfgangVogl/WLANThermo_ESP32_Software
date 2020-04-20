@@ -19,7 +19,14 @@
 ****************************************************/
 #pragma once
 
-#include <WiFi.h>
+#if defined(ESP8266)
+	#include <ESP8266WiFi.h>
+  #include <ESP8266WiFiType.h>
+#elif defined(ESP32)
+	#include <WiFi.h>
+#else
+	#error "Only for ESP8266 or ESP32"
+#endif
 
 #define NUM_OF_WLAN_CREDENTIALS 5u
 #define WLAN_SSID_MAX_LENGTH 33u // 32 + '\0'
@@ -66,9 +73,9 @@ public:
   void setStopRequest();
 
 private:
-  static void onWifiConnect(WiFiEvent_t event, WiFiEventInfo_t info);
-  static void onWifiDisconnect(WiFiEvent_t event, WiFiEventInfo_t info);
-  static void onsoftAPDisconnect(WiFiEvent_t event, WiFiEventInfo_t info);
+  static void onWifiConnect(WiFiEvent_t event);
+  static void onWifiDisconnect(WiFiEvent_t event);
+  static void onsoftAPDisconnect(WiFiEvent_t event);
   void loadConfig();
   void connectToNewStation();
   void connectToKnownStations();

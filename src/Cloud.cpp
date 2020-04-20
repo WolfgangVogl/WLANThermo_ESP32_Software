@@ -24,7 +24,14 @@
 #include "API.h"
 #include "WebHandler.h"
 #include "DbgPrint.h"
-#include <SPIFFS.h>
+
+#if defined(ESP8266)
+  // #include <spiffs/spiffs.h> // implicity included... avoid typedef conflict
+#elif defined(ESP32)
+  #include <SPIFFS.h>
+#else
+	#error "Only for ESP8266 or ESP32"
+#endif
 
 // API
 #define APISERVER "dev-api.wlanthermo.de"
@@ -55,7 +62,14 @@ ServerData Cloud::serverurl[3] = {
     {APISERVER, CHECKAPI, "cloud"}};
 
 asyncHTTPrequest Cloud::apiClient = asyncHTTPrequest();
-QueueHandle_t Cloud::apiQueue = xQueueCreate(API_QUEUE_SIZE, sizeof(CloudData));
+
+
+#if defined(ESP8266)
+  wthermo::Queue<10u, CloudData>* Cloud::apiQueue = new wthermo::Queue<API_QUEUE_SIZE, CloudData>();
+#elif defined(ESP32)
+  QueueHandle_t Cloud::apiQueue = xQueueCreate(API_QUEUE_SIZE, sizeof(CloudData));
+#endif
+
 bool Cloud::clientlog = false;
 
 enum
@@ -316,8 +330,7 @@ void Cloud::onReadyStateChange(void *optParm, asyncHTTPrequest *request, int rea
 // Send to API
 void Cloud::sendAPI(int apiIndex, int urlIndex, int parIndex)
 {
-  CloudData data = {apiIndex, urlIndex, parIndex};
-  xQueueSend(apiQueue, &data, 0u);
+  apiQueue->emplace_back(CloudData{apiIndex, urlIndex, parIndex});
 }
 
 // ++++++++++++++++++++++++++++++++++++++++++++++++++++++

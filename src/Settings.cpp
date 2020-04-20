@@ -19,8 +19,12 @@
 ****************************************************/
 
 #include "Settings.h"
-#include "nvs.h"
-#include "Preferences.h"
+
+#if defined(ESP8266)
+  // ...
+#elif defined(ESP32)
+  #include "nvs.h"
+  #include "Preferences.h"
 #include <memory>
 
 #define STRINGIFY(s) #s
@@ -172,3 +176,6 @@ void Settings::onWrite(SettingsOnChangeCallback cb)
 {
   registeredCallbacks.push_back(cb);
 }
+#else
+	#error "Only for ESP8266 or ESP32"
+#endif

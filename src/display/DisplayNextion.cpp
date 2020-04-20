@@ -20,7 +20,14 @@
 #include "DisplayNextion.h"
 #include "Settings.h"
 #include "Nextion.h"
-#include "SPIFFS.h"
+
+#if defined(ESP8266)
+  // #include <spiffs/spiffs.h> // implicity included... avoid typedef conflict
+#elif defined(ESP32)
+  #include <SPIFFS.h>
+#else
+	#error "Only for ESP8266 or ESP32"
+#endif
 
 extern "C"
 {

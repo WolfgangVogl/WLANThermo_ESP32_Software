@@ -17,7 +17,12 @@
     HISTORY: Please refer Github History
     
 ****************************************************/
-#include <ESPmDNS.h>
+
+#if defined(ESP8266)
+  #include <ESP8266mDNS.h>
+#elif defined(ESP32)
+  #include <ESPmDNS.h>
+#endif
 #include <ArduinoJson.h>
 #include "Wlan.h"
 #include "Settings.h"
@@ -291,7 +296,7 @@ void Wlan::stopAllRadio()
   wifiState = WifiState::Stopped;
 }
 
-void Wlan::onWifiConnect(WiFiEvent_t event, WiFiEventInfo_t info)
+void Wlan::onWifiConnect(WiFiEvent_t event)
 {
   Serial.printf("STA: %s\n", WiFi.SSID().c_str());
   Serial.printf("IP: %s\n", WiFi.localIP().toString().c_str());
@@ -317,12 +322,12 @@ void Wlan::onWifiConnect(WiFiEvent_t event, WiFiEventInfo_t info)
   }
 }
 
-void Wlan::onWifiDisconnect(WiFiEvent_t event, WiFiEventInfo_t info)
+void Wlan::onWifiDisconnect(WiFiEvent_t event)
 {
   Serial.println("wifi: disconnect");
 }
 
-void Wlan::onsoftAPDisconnect(WiFiEvent_t event, WiFiEventInfo_t info)
+void Wlan::onsoftAPDisconnect(WiFiEvent_t event)
 {
   Serial.print("NO AP: ");
 }

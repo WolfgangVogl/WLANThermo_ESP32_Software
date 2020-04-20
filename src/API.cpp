@@ -218,7 +218,7 @@ void API::fcmAry(JsonArray &jAry, int cc)
   if (cc < 3)
     i = cc - 1; // nur ein bestimmtes Profil
 
-  for (i; i < cc; i++)
+  for (; i < cc; i++)
   {
     JsonObject &_fcm = jAry.createNestedObject();
     _fcm["id"] = i;

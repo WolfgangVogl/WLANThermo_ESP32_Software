@@ -19,7 +19,14 @@
 ****************************************************/
 #pragma once
 
-#include <esp_pm.h>
+#if defined(ESP8266)
+  // .... 
+#elif defined(ESP32)
+	#include <esp_pm.h>
+#else
+	#error "Only for ESP8266 or ESP32"
+#endif
+
 #include "temperature/TemperatureGrp.h"
 #include "pitmaster/PitmasterGrp.h"
 #include "peripherie/Battery.h"
@@ -102,8 +109,14 @@ protected:
   boolean powerSaveModeEnabled;
   boolean damperSupport;
   boolean initDone;
+#if defined(ESP8266)
+	// no semaphores/mutexes
+#elif defined(ESP32)
   SemaphoreHandle_t wireSemaHandle;
   esp_pm_lock_handle_t wirePmHandle;
+#else
+	#error "Only for ESP8266 or ESP32"
+#endif
 
 private:
   static void task(void *parameter);

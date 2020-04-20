@@ -17,6 +17,9 @@
     HISTORY: Please refer Github History
     
 ****************************************************/
+#include <Server.h>
+#include <ESP8266WebServer.h>
+
 
 #include <DbgPrint.h>
 #include "system/SystemBase.h"

@@ -22,7 +22,7 @@
 #include "system/SystemBase.h"
 #include "display/DisplayBase.h"
 #include "SerialCmd.h"
-#include "Server.h"
+#include "WtServer.h"
 #include "DbgPrint.h"
 
 // Forward declaration

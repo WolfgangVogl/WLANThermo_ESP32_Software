@@ -22,7 +22,7 @@
 // https://github.com/spacehuhn/wifi_ducky/blob/master/esp8266_wifi_duck/esp8266_wifi_duck.ino
 // WebSocketClient: https://github.com/Links2004/arduinoWebSockets/issues/119
 
-#include "Server.h"
+#include "WtServer.h"
 #include "WebHandler.h"
 #include "Cloud.h"
 #include "system/SystemBase.h"
@@ -31,7 +31,14 @@
 #endif
 #include "DbgPrint.h"
 #include "Settings.h"
-#include <SPIFFS.h>
+
+#if defined(ESP8266)
+  // #include <spiffs/spiffs.h> // implicity included... avoid typedef conflict
+#elif defined(ESP32)
+  #include <SPIFFS.h>
+#else
+	#error "Only for ESP8266 or ESP32"
+#endif
 
 // include html files
 #include "webui/index.html.gz.h"

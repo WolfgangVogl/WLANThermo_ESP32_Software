@@ -19,9 +19,18 @@
     
 ****************************************************/
 
-#include <HTTPClient.h>
-#include <HTTPUpdate.h>
-#include <SPIFFS.h>
+#if defined(ESP8266)
+  // #include <spiffs/spiffs.h> // implicity included... avoid typedef conflict
+  #include <ESP8266HTTPClient.h>
+  #include <ESP8266httpUpdate.h>
+#elif defined(ESP32)
+  #include <HTTPClient.h>
+  #include <HTTPUpdate.h>
+  #include <SPIFFS.h>
+#else
+	#error "Only for ESP8266 or ESP32"
+#endif
+
 #include "OtaUpdate.h"
 #include "system/SystemBase.h"
 #include "display/DisplayBase.h"

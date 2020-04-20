@@ -20,6 +20,8 @@
 ****************************************************/
 #pragma once
 
+#include "xQueue.hpp"
+
 #include <Arduino.h>
 #include <TimeLib.h>
 #include <asyncHTTPrequest.h>
@@ -99,6 +101,6 @@ private:
   void handleQueue();
   CloudConfig config;
   static asyncHTTPrequest apiClient;
-  static QueueHandle_t apiQueue;
+  static wthermo::Queue<10u, CloudData>* apiQueue;
   uint16_t intervalCounter;
 };

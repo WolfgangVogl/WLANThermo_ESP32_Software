@@ -25,14 +25,22 @@
 // https://github.com/me-no-dev/ESPAsyncWebServer#request-variables
 
 #include "WebHandler.h"
-#include "Server.h"
+#include "WtServer.h"
 #include "API.h"
 #include "DbgPrint.h"
 #include "system/SystemBase.h"
 #include "display/DisplayBase.h"
 #include "Version.h"
 #include "RecoveryMode.h"
-#include <SPIFFS.h>
+
+#if defined(ESP8266)
+  // #include <spiffs/spiffs.h> // implicity included... avoid typedef conflict
+#elif defined(ESP32)
+  #include <SPIFFS.h>
+#else
+	#error "Only for ESP8266 or ESP32"
+#endif
+
 #include <AsyncJson.h>
 #include "webui/restart.html.gz.h"
 

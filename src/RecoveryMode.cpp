@@ -17,6 +17,9 @@
     HISTORY: Please refer Github History
     
 ****************************************************/
+#if defined(ESP8266)
+
+#elif defined(ESP32)
 #include <ESPAsyncWebServer.h>
 #include <Update.h>
 #include <Preferences.h>
@@ -283,3 +286,5 @@ UploadFileType RecoveryMode::getFileType(String fileName)
 
   return retFileType;
 }
+
+#endif

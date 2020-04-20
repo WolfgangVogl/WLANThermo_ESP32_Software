@@ -19,9 +19,19 @@
 ****************************************************/
 
 #include <SPI.h>
-#include <WiFi.h>
-#include <SPIFFS.h>
-#include <rom/rtc.h>
+
+#if defined(ESP8266)
+  #include <ESP8266WiFi.h
+  // #include <spiffs/spiffs.h> // implicity included... avoid typedef conflict
+  //#include <rtctime.h>
+#elif defined(ESP32)
+  #include <WiFi.h>
+  #include <SPIFFS.h>
+  #include <rom/rtc.h>
+#else
+	#error "Only for ESP8266 or ESP32"
+#endif
+
 #include "SystemBase.h"
 #include "Constants.h"
 #include "RecoveryMode.h"
@@ -44,8 +54,6 @@ SystemBase::SystemBase()
   powerSaveModeEnabled = false;
   damperSupport = false;
   initDone = false;
-  wireSemaHandle = xSemaphoreCreateMutex();
-  esp_pm_lock_create(ESP_PM_NO_LIGHT_SLEEP, 0, "NULL", &this->wirePmHandle);
 }
 
 void SystemBase::init()
@@ -189,14 +197,12 @@ void SystemBase::restart()
 
 void SystemBase::wireLock()
 {
-  esp_pm_lock_acquire(this->wirePmHandle);
-  xSemaphoreTake(this->wireSemaHandle, portMAX_DELAY);
+  // ESP8266 - NOP
 }
 
 void SystemBase::wireRelease()
 {
-  xSemaphoreGive(this->wireSemaHandle);
-  esp_pm_lock_release(this->wirePmHandle);
+  // ESP8266 - NOP
 }
 
 String SystemBase::getDeviceName()

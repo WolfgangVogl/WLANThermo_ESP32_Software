@@ -27,7 +27,9 @@
 #define REMOTE_DEBUG 2
 
 /***** CONFIGURE DEBUG SETTINGS *****/
+#ifndef DEBUG
 #define DEBUG NO_DEBUG
+#endif
 #define MQTT_DEBUG NO_DEBUG
 #define PM_DEBUG NO_DEBUG
 #define RM_DEBUG NO_DEBUG
