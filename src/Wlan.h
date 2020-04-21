@@ -73,9 +73,6 @@ public:
   void setStopRequest();
 
 private:
-  static void onWifiConnect(WiFiEvent_t event);
-  static void onWifiDisconnect(WiFiEvent_t event);
-  static void onsoftAPDisconnect(WiFiEvent_t event);
   void loadConfig();
   void connectToNewStation();
   void connectToKnownStations();

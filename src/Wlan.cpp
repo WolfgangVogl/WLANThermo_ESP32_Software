@@ -51,12 +51,41 @@ void Wlan::init()
 {
   loadConfig();
 
-  WiFi.setHostname(this->hostName.c_str());
+  WiFi.hostname(this->hostName.c_str());
   WiFi.persistent(false);
 
-  WiFi.onEvent(onWifiConnect, WiFiEvent_t::SYSTEM_EVENT_STA_GOT_IP);
-  WiFi.onEvent(onWifiDisconnect, WiFiEvent_t::SYSTEM_EVENT_STA_DISCONNECTED);
-  WiFi.onEvent(onsoftAPDisconnect, WiFiEvent_t::SYSTEM_EVENT_AP_STADISCONNECTED);
+  WiFi.onStationModeGotIP([](const WiFiEventStationModeGotIP&)
+  {
+    Serial.printf("STA: %s\n", WiFi.SSID().c_str());
+    Serial.printf("IP: %s\n", WiFi.localIP().toString().c_str());
+    WiFi.mode(WIFI_STA);
+
+    if (WiFi.SSID() == newWlanCredentials.ssid)
+    {
+      saveConfig();
+    }
+    else
+    {
+      
+    }
+    
+
+    if (!MDNS.begin(hostName.c_str()))
+    {
+      Serial.println("Error MDNS!");
+    }
+    else
+    {
+      MDNS.addService("http", "tcp", 80);
+    }
+  });
+
+  WiFi.onStationModeDisconnected([](const WiFiEventStationModeDisconnected&) {
+    Serial.println("wifi: disconnect");
+  });
+  WiFi.onSoftAPModeStationDisconnected([](const WiFiEventSoftAPModeStationDisconnected&) {
+    Serial.println("wifi: NO AP");
+  });
 
   IPAddress local_IP(192, 168, 66, 1), gateway(192, 168, 66, 1), subnet(255, 255, 255, 0);
   WiFi.softAPConfig(local_IP, gateway, subnet);
@@ -294,42 +323,6 @@ void Wlan::stopAllRadio()
   WiFi.mode(WIFI_OFF);
   btStop();
   wifiState = WifiState::Stopped;
-}
-
-void Wlan::onWifiConnect(WiFiEvent_t event)
-{
-  Serial.printf("STA: %s\n", WiFi.SSID().c_str());
-  Serial.printf("IP: %s\n", WiFi.localIP().toString().c_str());
-  WiFi.mode(WIFI_STA);
-
-  if (WiFi.SSID() == newWlanCredentials.ssid)
-  {
-    saveConfig();
-  }
-  else
-  {
-    
-  }
-  
-
-  if (!MDNS.begin(hostName.c_str()))
-  {
-    Serial.println("Error MDNS!");
-  }
-  else
-  {
-    MDNS.addService("http", "tcp", 80);
-  }
-}
-
-void Wlan::onWifiDisconnect(WiFiEvent_t event)
-{
-  Serial.println("wifi: disconnect");
-}
-
-void Wlan::onsoftAPDisconnect(WiFiEvent_t event)
-{
-  Serial.print("NO AP: ");
 }
 
 String Wlan::getMacAddress()
