@@ -186,7 +186,7 @@ boolean Wlan::isConnected()
 
 boolean Wlan::isAP()
 {
-  return (WiFi.getMode() == WIFI_MODE_APSTA) ? true : false;
+  return (WiFi.getMode() == WiFiMode_t::WIFI_AP_STA);
 }
 
 uint8_t Wlan::numOfAPClients()
@@ -321,7 +321,14 @@ void Wlan::stopAllRadio()
   //Serial.println("** Stopping WiFi+BT");
   WiFi.disconnect(true);
   WiFi.mode(WIFI_OFF);
+  
+#if defined(ESP8266)
+#elif defined(ESP32)
   btStop();
+#else
+	#error "Only for ESP8266 or ESP32"
+#endif
+
   wifiState = WifiState::Stopped;
 }
 
