@@ -38,6 +38,33 @@
 #include "Settings.h"
 #include "DbgPrint.h"
 
+// ESP8266 DUMMY - TODO TODO TODO TODO
+// ESP8266 DUMMY - TODO TODO TODO TODO
+// ESP8266 DUMMY - TODO TODO TODO TODO
+  OtaUpdate::OtaUpdate() {}
+  void OtaUpdate::saveConfig() {}
+  void OtaUpdate::loadConfig() {}
+  void OtaUpdate::update() {}
+  void OtaUpdate::setFirmwareUrl(const char *url) {}
+  void OtaUpdate::setDisplayUrl(const char *url) {}
+  void OtaUpdate::setAutoUpdate(boolean enable) {}
+  void OtaUpdate::requestVersion(String version) {}
+  void OtaUpdate::requestFile(String file) {}
+  void OtaUpdate::resetUpdateInfo() {}
+  boolean OtaUpdate::checkForUpdate(String version) { return false; }
+  boolean OtaUpdate::getAutoUpdate() {return this->autoUpdate;}
+  void OtaUpdate::startUpdate() {}
+  boolean OtaUpdate::getPrerelease() {return prerelease;}
+  boolean OtaUpdate::setPrerelease(boolean prerelease) {this->prerelease=prerelease;}
+  void OtaUpdate::task(void *parameter) {}
+  boolean OtaUpdate::doFirmwareUpdate() { return false; }
+  boolean OtaUpdate::doDisplayUpdate() { return false; }
+  boolean OtaUpdate::downloadFileToSPIFFS(const char *url, const char *fileName) {}
+// ESP8266 DUMMY - TODO TODO TODO TODO
+// ESP8266 DUMMY - TODO TODO TODO TODO
+// ESP8266 DUMMY - TODO TODO TODO TODO
+
+/*
 OtaUpdate::OtaUpdate()
 {
   prerelease = false;
@@ -296,3 +323,4 @@ boolean OtaUpdate::setPrerelease(boolean prerelease)
   if(checkForUpdate)
     resetUpdateInfo();
 }
+*/
