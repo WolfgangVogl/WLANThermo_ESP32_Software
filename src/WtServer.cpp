@@ -68,10 +68,12 @@ void WServer::init()
       .setFilter(ON_STA_FILTER);
 
   webServer->on("/info", [](AsyncWebServerRequest *request) {
-    size_t usedBytes;
-    size_t totalBytes;
-    usedBytes = SPIFFS.usedBytes();
-    totalBytes = SPIFFS.totalBytes();
+    
+    FSInfo fs_info;
+    SPIFFS.info(fs_info);
+
+    auto& usedBytes = fs_info.usedBytes;
+    auto& totalBytes = fs_info.totalBytes;
     //TODO: print wifi SSIDs
     /*for (int i = 0; i < wifi.savedlen; i++) {
         ssidstr += " ";
@@ -80,7 +82,10 @@ void WServer::init()
         ssidstr += wifi.savedssid[i];
     }*/
 
-    String info = "spiffs: " + String(usedBytes) + " | " + String(totalBytes) + "\n" + "heap: " + String(ESP.getFreeHeap()) + "\n" + "sn: " + gSystem->getSerialNumber() + "\n" + "pn: " + gSystem->item.read(ItemNvsKeys::kItem) + "\n";
+    String info = "spiffs: " + String(usedBytes) + " | " + String(totalBytes) + "\n"
+    +"heap: " + String(ESP.getFreeHeap()) + "\n"
+    + "sn: " + gSystem->getSerialNumber() + "\n"
+    + "pn: " + gSystem->item.read(ItemNvsKeys::kItem) + "\n";
     if(gSystem->battery != NULL)
     {
       info += "batlimit: " + String(gSystem->battery->min) + " | " + String(gSystem->battery->max) + "\n" + "bat: " + String(gSystem->battery->adcvoltage) + " | " + String(gSystem->battery->voltage) + " | " + String(gSystem->battery->simc) + "\n" + "batstat: " + String(gSystem->battery->getPowerModeInt()) + " | " + String(gSystem->battery->setreference) + "\n";
