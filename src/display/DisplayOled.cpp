@@ -32,6 +32,7 @@
 #include "DisplayOledIcons.h"
 #include "Settings.h"
 #include "Version.h"
+#include "Stubs.h"
 
 #define MAXBATTERYBAR 13u
 #define OLIMITMIN 35.0

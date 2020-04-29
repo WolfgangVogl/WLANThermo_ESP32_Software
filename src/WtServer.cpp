@@ -70,8 +70,10 @@ void WServer::init()
   webServer->on("/info", [](AsyncWebServerRequest *request) {
     size_t usedBytes;
     size_t totalBytes;
-    usedBytes = SPIFFS.usedBytes();
-    totalBytes = SPIFFS.totalBytes();
+    fs::FSInfo fsInfo;
+    SPIFFS.info(fsInfo);
+    usedBytes = fsInfo.usedBytes;  
+    totalBytes = fsInfo.totalBytes;
     //TODO: print wifi SSIDs
     /*for (int i = 0; i < wifi.savedlen; i++) {
         ssidstr += " ";

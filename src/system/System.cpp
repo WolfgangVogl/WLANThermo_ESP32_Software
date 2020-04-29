@@ -39,3 +39,9 @@ DisplayBase *gDisplay = new DisplayNextion();
 SystemBase* gSystem = new SystemNanoVx();
 DisplayBase *gDisplay = new DisplayOled();
 #endif
+
+#include "system/SystemNanoVx.h"
+#include "display/DisplayOled.h"
+
+SystemBase* gSystem = new SystemNanoVx();
+DisplayBase *gDisplay = new DisplayOled();

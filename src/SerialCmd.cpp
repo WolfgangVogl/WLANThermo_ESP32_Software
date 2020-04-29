@@ -105,17 +105,17 @@ void read_serial(char *buffer) {
   
     // set item string
     if (str == "item") {
-      Serial.println(gSystem->item.read(ItemNvsKeys::kItem));
+      //Serial.println(gSystem->item.read(ItemNvsKeys::kItem));
       return;    
     }
 
     else if (str == "data") {
-      Serial.println(API::apiData(APIDATA));
+      //Serial.println(API::apiData(APIDATA));
       return;
     }
   
     else if (str == "settings") {
-      Serial.println(API::apiData(APISETTINGS));
+      //Serial.println(API::apiData(APISETTINGS));
       return;
     }
   /*
@@ -162,7 +162,7 @@ void read_serial(char *buffer) {
 /*
     else if (str == "battery") {
       notification.type = 2;
-      Serial.println("Test");
+      //Serial.println("Test");
       return;
     }
 */
@@ -196,7 +196,7 @@ void read_serial(char *buffer) {
 
     // Get free heap size
     else if (str == "heap") {
-      Serial.printf("Free heap: %d bytes\n", ESP.getFreeHeap());
+      //Serial.printf("Free heap: %d bytes\n", ESP.getFreeHeap());
       return;
     }
 /*

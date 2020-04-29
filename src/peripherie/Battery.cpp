@@ -24,7 +24,7 @@
 #include "system/SystemBase.h"
 #include "display/DisplayBase.h"
 #include "Settings.h"
-#include <esp_adc_cal.h>
+//#include <esp_adc_cal.h>
 
 #define BATTERY_ADC_IO 39u
 #define BATTERTY_CHARGE_IO 35u
@@ -38,16 +38,16 @@
 #define BATTERYSTARTUP 20000
 #define REF_VOLTAGE_DEFAULT 1120
 
-esp_adc_cal_characteristics_t *adc_chars = new esp_adc_cal_characteristics_t;
+//esp_adc_cal_characteristics_t *adc_chars = new esp_adc_cal_characteristics_t;
 
 Battery::Battery()
 {
   pinMode(BATTERTY_CHARGE_IO, INPUT);
-  pinMode(BATTERY_USB_IO, INPUT_PULLDOWN);              // hat kein Pulldown
+  pinMode(BATTERY_USB_IO, INPUT_PULLDOWN_16);              // hat kein Pulldown
 
   // Calibration function
-  analogSetPinAttenuation(BATTERY_ADC_IO, ADC_0db);
-  analogReadResolution(10u);
+  //analogSetPinAttenuation(BATTERY_ADC_IO, ADC_0db);
+  //analogReadResolution(10u);
 
   this->min = BATTMIN;
   this->max = BATTMAX;
@@ -60,7 +60,7 @@ Battery::Battery()
   adcRawMedian = new MedianFilter<uint16_t>(MEDIAN_SIZE);
   loadConfig();
 
-  esp_adc_cal_characterize(ADC_UNIT_1, ADC_ATTEN_DB_0, ADC_WIDTH_BIT_10, this->refvoltage, adc_chars);
+  //esp_adc_cal_characterize(ADC_UNIT_1, ADC_ATTEN_DB_0, ADC_WIDTH_BIT_10, this->refvoltage, adc_chars);
   updatePowerMode();
 }
 
@@ -90,7 +90,7 @@ void Battery::updatePowerPercentage()
   {
     updateCycle = PERCENTAGE_UPDATE_CYCLE;
   }
-  //Serial.println("Battery::updatePowerPercentage");
+  ////Serial.println("Battery::updatePowerPercentage");
 
   // Calculate battery percentage
   uint32_t percraw = ((this->voltage - this->min) * 100) / (this->max - this->min);
@@ -183,8 +183,8 @@ void Battery::updatePowerMode()
   }
 
   // Transformation Digitalwert in Batteriespannung
-  uint32_t adcRawVol = esp_adc_cal_raw_to_voltage(this->adcRawValue, adc_chars);
-  uint32_t adcFilteredVol = esp_adc_cal_raw_to_voltage(this->adcFilteredValue, adc_chars);
+  uint32_t adcRawVol = 0u;//esp_adc_cal_raw_to_voltage(this->adcRawValue, adc_chars);
+  uint32_t adcFilteredVol = 0u;//esp_adc_cal_raw_to_voltage(this->adcFilteredValue, adc_chars);
 
   this->adcvoltage = adcRawVol * BATTDIV;
   this->voltage = adcFilteredVol * BATTDIV;

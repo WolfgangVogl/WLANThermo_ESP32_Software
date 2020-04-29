@@ -20,13 +20,6 @@
 
 #include "Settings.h"
 
-#if defined(ESP8266)
-  // ...
-#elif defined(ESP32)
-  #include "nvs.h"
-  #include "Preferences.h"
-#include <memory>
-
 #define STRINGIFY(s) #s
 
 typedef struct
@@ -48,26 +41,6 @@ static const NvsKeyConfig_t NvsKeyConfig[] =
         {STRINGIFY(kOtaUpdate),   true},
         {STRINGIFY(kServer),      true}};
 
-class Prefs : public Preferences
-{
-public:
-  Prefs(){};
-  size_t getStringLength(const char *key)
-  {
-    size_t len = 0;
-
-    if (!_started || !key)
-      return 0;
-
-    esp_err_t err = nvs_get_str(_handle, key, NULL, &len);
-
-    if (err)
-      return 0;
-
-    return len;
-  };
-};
-
 const char *Settings::nvsNamespace = "wlanthermo";
 const uint16_t Settings::jsonBufferSize = 3072u;
 std::vector<SettingsOnChangeCallback> Settings::registeredCallbacks;
@@ -78,30 +51,11 @@ Settings::Settings()
 
 void Settings::write(SettingsNvsKeys key, JsonObject &json)
 {
-  Prefs prefs;
-  size_t sSize = json.measureLength() + 1u;
-  std::unique_ptr<char[]> s(new char[sSize]);
-  json.printTo(s.get(), sSize);
-  prefs.begin(nvsNamespace, false);
-  prefs.putString(NvsKeyConfig[key].keyName, s.get());
-  Serial.printf("Settings::write: %s - %s\n", NvsKeyConfig[key].keyName, s.get());
-  prefs.end();
-
-  for (std::vector<SettingsOnChangeCallback>::iterator it = registeredCallbacks.begin() ; it != registeredCallbacks.end(); ++it)
-    (*it)(key);
 }
 
 JsonObject &Settings::read(SettingsNvsKeys key, DynamicJsonBuffer *jsonBuffer)
 {
-  Prefs prefs;
-  prefs.begin(nvsNamespace, true);
-  size_t sSize = prefs.getStringLength(NvsKeyConfig[key].keyName) + 1u;
-  std::unique_ptr<char[]> s(new char[sSize]);
-  memset(s.get(), 0, sSize);
-  prefs.getString(NvsKeyConfig[key].keyName, s.get(), sSize);
-  prefs.end();
-  Serial.printf("Settings::read: %s (%d bytes) - %s\n", NvsKeyConfig[key].keyName, sSize, s.get());
-  JsonObject &json = jsonBuffer->parseObject(s.get());
+  JsonObject &json = jsonBuffer->parseObject("");
   return json;
 }
 
@@ -109,73 +63,26 @@ String Settings::exportFile()
 {
   String exportString = "";
 
-  for(uint8_t keyIndex = 0u; keyIndex < (sizeof(NvsKeyConfig)/sizeof(NvsKeyConfig_t)); keyIndex++)
-  {
-    if(NvsKeyConfig[keyIndex].exportEnabled)
-    {
-      Prefs prefs;
-      prefs.begin(nvsNamespace, true);
-      size_t sSize = prefs.getStringLength(NvsKeyConfig[keyIndex].keyName) + 1u;
-      std::unique_ptr<char[]> s(new char[sSize]);
-      memset(s.get(), 0, sSize);
-      prefs.getString(NvsKeyConfig[keyIndex].keyName, s.get(), sSize);
-      exportString += NvsKeyConfig[keyIndex].keyName;
-      exportString += ":";
-      exportString += s.get();
-      exportString += "\r\n";
-      prefs.end();
-    }
-  }
   return exportString;
 }
 
 void Settings::write(String key, String value)
 {
-  for(uint8_t keyIndex = 0u; keyIndex < (sizeof(NvsKeyConfig)/sizeof(NvsKeyConfig_t)); keyIndex++)
-  {
-    if(String(NvsKeyConfig[keyIndex].keyName) == key)
-    {
-      Prefs prefs;
-      prefs.begin(nvsNamespace, false);
-      prefs.putString(key.c_str(), value.c_str());
-      Serial.printf("Settings::write: %s - %s\n", key.c_str(), value.c_str());
-      prefs.end();
-      break;
-    }
-  }
 }
 
 void Settings::remove(SettingsNvsKeys key)
 {
-  Preferences prefs;
-  prefs.begin(nvsNamespace);
-  prefs.remove(NvsKeyConfig[key].keyName);
-  Serial.printf("Settings::remove: %s\n", NvsKeyConfig[key].keyName);
-  prefs.end();
 }
 
 void Settings::remove(String key)
 {
-  Preferences prefs;
-  prefs.begin(nvsNamespace);
-  prefs.remove(key.c_str());
-  Serial.printf("Settings::remove: %s\n",key.c_str());
-  prefs.end();
 }
 
 void Settings::clear()
 {
-  Preferences prefs;
-  prefs.begin(nvsNamespace);
-  prefs.clear();
-  Serial.printf("Settings::clear\n");
-  prefs.end();
 }
 
 void Settings::onWrite(SettingsOnChangeCallback cb)
 {
   registeredCallbacks.push_back(cb);
 }
-#else
-	#error "Only for ESP8266 or ESP32"
-#endif

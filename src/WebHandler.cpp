@@ -197,7 +197,7 @@ void NanoWebHandler::handleWifiScan(AsyncWebServerRequest *request)
 
     if (request)
       request->send(200, TEXTPLAIN, "OK");
-    //else Serial.println("OK");
+    //else //Serial.println("OK");
   }
 }
 
@@ -435,7 +435,7 @@ void NanoWebHandler::handleRequest(AsyncWebServerRequest *request)
       if (request->hasParam("version", true))
       {
         String version = request->getParam("version", true)->value();
-        Serial.println(version);
+        //Serial.println(version);
         if (version.indexOf("v") == 0)
         {
           gSystem->otaUpdate.requestVersion(version);
@@ -841,7 +841,7 @@ bool BodyWebHandler::setPitmaster(AsyncWebServerRequest *request, uint8_t *datas
       if (temppid != pm->getAssignedProfile()->id)
       {
         pm->disableActuators(false);
-        //Serial.println("PID-Wechsel");
+        ////Serial.println("PID-Wechsel");
       }
       pm->assignProfile(gSystem->getPitmasterProfile(temppid));
     }
@@ -980,7 +980,7 @@ bool BodyWebHandler::setServerAPI(AsyncWebServerRequest *request, uint8_t *datas
   // URL
   if (json.containsKey("url"))
   {
-    Serial.println("Server-URL");
+    //Serial.println("Server-URL");
     JsonObject &_url = json["url"];
 
     for (int i = 0; i < Cloud::serverurlCount; i++)
@@ -999,7 +999,7 @@ bool BodyWebHandler::setServerAPI(AsyncWebServerRequest *request, uint8_t *datas
   bool available = false;
   if (json.containsKey("update"))
   {
-    Serial.println("Update object");
+    //Serial.println("Update object");
     JsonObject &_update = json["update"];
     if (_update.containsKey("available"))
       available = _update["available"];
@@ -1024,7 +1024,7 @@ bool BodyWebHandler::setServerAPI(AsyncWebServerRequest *request, uint8_t *datas
         JsonObject &_fw = _update[gDisplay->getUpdateName()];
         if (_fw.containsKey("url"))
           gSystem->otaUpdate.setDisplayUrl(_fw["url"].asString());
-        Serial.println(_fw["url"].asString());
+        //Serial.println(_fw["url"].asString());
       }
 
       if (_update.containsKey("firmware"))
@@ -1032,7 +1032,7 @@ bool BodyWebHandler::setServerAPI(AsyncWebServerRequest *request, uint8_t *datas
         JsonObject &_fw = _update["firmware"];
         if (_fw.containsKey("url"))
           gSystem->otaUpdate.setFirmwareUrl(_fw["url"].asString());
-        Serial.println(_fw["url"].asString());
+        //Serial.println(_fw["url"].asString());
       }
 
       if (_update.containsKey("force"))
@@ -1057,8 +1057,8 @@ bool BodyWebHandler::setServerAPI(AsyncWebServerRequest *request, uint8_t *datas
         gSystem->cloud.state = 2;
       else
         gSystem->cloud.state = 1;
-      Serial.print("[CLOUD]: ");
-      Serial.println(gSystem->cloud.state);
+      //Serial.print("[CLOUD]: ");
+      //Serial.println(gSystem->cloud.state);
     }
   }
 
@@ -1071,8 +1071,8 @@ bool BodyWebHandler::setServerAPI(AsyncWebServerRequest *request, uint8_t *datas
     {
       //if (_note["task"]) sys.online |= (1<<2);
       //else sys.online &= ~(1<<2);
-      Serial.print("[NOTE]: ");
-      Serial.println(_note["task"].asString());
+      //Serial.print("[NOTE]: ");
+      //Serial.println(_note["task"].asString());
     }
   }
 

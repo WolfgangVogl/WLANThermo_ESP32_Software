@@ -40,26 +40,26 @@ extern RemoteDebug Debug;
 #endif
 
 #if DEBUG == SERIAL_DEBUG
-#define DPRINT(...) Serial.print(__VA_ARGS__)
-#define DPRINTLN(...) Serial.println(__VA_ARGS__)
-#define DPRINTP(...) Serial.print(F(__VA_ARGS__))
-#define DPRINTPLN(...) Serial.println(F(__VA_ARGS__))
-#define DPRINTF(...) Serial.printf(__VA_ARGS__)
+#define DPRINT(...) //Serial.print(__VA_ARGS__)
+#define DPRINTLN(...) //Serial.println(__VA_ARGS__)
+#define DPRINTP(...) //Serial.print(F(__VA_ARGS__))
+#define DPRINTPLN(...) //Serial.println(F(__VA_ARGS__))
+#define DPRINTF(...) //Serial.printf(__VA_ARGS__)
 #define IPRINT(...)         \
-  Serial.print("[INFO]\t"); \
-  Serial.print(__VA_ARGS__)
+  //Serial.print("[INFO]\t"); \
+  //Serial.print(__VA_ARGS__)
 #define IPRINTLN(...)       \
-  Serial.print("[INFO]\t"); \
-  Serial.println(__VA_ARGS__)
+  //Serial.print("[INFO]\t"); \
+  //Serial.println(__VA_ARGS__)
 #define IPRINTP(...)        \
-  Serial.print("[INFO]\t"); \
-  Serial.print(F(__VA_ARGS__))
+  //Serial.print("[INFO]\t"); \
+  //Serial.print(F(__VA_ARGS__))
 #define IPRINTPLN(...)      \
-  Serial.print("[INFO]\t"); \
-  Serial.println(F(__VA_ARGS__))
+  //Serial.print("[INFO]\t"); \
+  //Serial.println(F(__VA_ARGS__))
 #define IPRINTF(...)        \
-  Serial.print("[INFO]\t"); \
-  Serial.printf(__VA_ARGS__)
+  //Serial.print("[INFO]\t"); \
+  //Serial.printf(__VA_ARGS__)
 #elif DEBUG == REMOTE_DEBUG
 #define DPRINT(...) Debug.print(__VA_ARGS__)
 #define DPRINTLN(...) Debug.println(__VA_ARGS__)
@@ -95,11 +95,11 @@ extern RemoteDebug Debug;
 #endif
 
 #if MQTT_DEBUG == SERIAL_DEBUG
-#define MQPRINT(...) Serial.print(__VA_ARGS__)
-#define MQPRINTLN(...) Serial.println(__VA_ARGS__)
-#define MQPRINTP(...) Serial.print(F(__VA_ARGS__))
-#define MQPRINTPLN(...) Serial.println(F(__VA_ARGS__))
-#define MQPRINTF(...) Serial.printf(__VA_ARGS__)
+#define MQPRINT(...) //Serial.print(__VA_ARGS__)
+#define MQPRINTLN(...) //Serial.println(__VA_ARGS__)
+#define MQPRINTP(...) //Serial.print(F(__VA_ARGS__))
+#define MQPRINTPLN(...) //Serial.println(F(__VA_ARGS__))
+#define MQPRINTF(...) //Serial.printf(__VA_ARGS__)
 #elif MQTT_DEBUG == REMOTE_DEBUG
 #define MQPRINT(...) Debug.print(__VA_ARGS__)
 #define MQPRINTLN(...) Debug.println(__VA_ARGS__)
@@ -115,11 +115,11 @@ extern RemoteDebug Debug;
 #endif
 
 #if PM_DEBUG == SERIAL_DEBUG
-#define PMPRINT(...) Serial.print(__VA_ARGS__)
-#define PMPRINTLN(...) Serial.println(__VA_ARGS__)
-#define PMPRINTP(...) Serial.print(F(__VA_ARGS__))
-#define PMPRINTPLN(...) Serial.println(F(__VA_ARGS__))
-#define PMPRINTF(...) Serial.printf(__VA_ARGS__)
+#define PMPRINT(...) //Serial.print(__VA_ARGS__)
+#define PMPRINTLN(...) //Serial.println(__VA_ARGS__)
+#define PMPRINTP(...) //Serial.print(F(__VA_ARGS__))
+#define PMPRINTPLN(...) //Serial.println(F(__VA_ARGS__))
+#define PMPRINTF(...) //Serial.printf(__VA_ARGS__)
 #elif PM_DEBUG == REMOTE_DEBUG
 #define PMPRINT(...) Debug.print(__VA_ARGS__)
 #define PMPRINTLN(...) Debug.println(__VA_ARGS__)
@@ -135,11 +135,11 @@ extern RemoteDebug Debug;
 #endif
 
 #if PM_DEBUG == SERIAL_DEBUG
-#define PMPRINT(...) Serial.print(__VA_ARGS__)
-#define PMPRINTLN(...) Serial.println(__VA_ARGS__)
-#define PMPRINTP(...) Serial.print(F(__VA_ARGS__))
-#define PMPRINTPLN(...) Serial.println(F(__VA_ARGS__))
-#define PMPRINTF(...) Serial.printf(__VA_ARGS__)
+#define PMPRINT(...) //Serial.print(__VA_ARGS__)
+#define PMPRINTLN(...) //Serial.println(__VA_ARGS__)
+#define PMPRINTP(...) //Serial.print(F(__VA_ARGS__))
+#define PMPRINTPLN(...) //Serial.println(F(__VA_ARGS__))
+#define PMPRINTF(...) //Serial.printf(__VA_ARGS__)
 #elif PM_DEBUG == REMOTE_DEBUG
 #define PMPRINT(...) Debug.print(__VA_ARGS__)
 #define PMPRINTLN(...) Debug.println(__VA_ARGS__)
@@ -155,11 +155,11 @@ extern RemoteDebug Debug;
 #endif
 
 #if RM_DEBUG == SERIAL_DEBUG
-#define RMPRINT(...) Serial.print(__VA_ARGS__)
-#define RMPRINTLN(...) Serial.println(__VA_ARGS__)
-#define RMPRINTP(...) Serial.print(F(__VA_ARGS__))
-#define RMPRINTPLN(...) Serial.println(F(__VA_ARGS__))
-#define RMPRINTF(...) Serial.printf(__VA_ARGS__)
+#define RMPRINT(...) //Serial.print(__VA_ARGS__)
+#define RMPRINTLN(...) //Serial.println(__VA_ARGS__)
+#define RMPRINTP(...) //Serial.print(F(__VA_ARGS__))
+#define RMPRINTPLN(...) //Serial.println(F(__VA_ARGS__))
+#define RMPRINTF(...) //Serial.printf(__VA_ARGS__)
 #elif RM_DEBUG == REMOTE_DEBUG
 #define RMPRINT(...) Debug.print(__VA_ARGS__)
 #define RMPRINTLN(...) Debug.println(__VA_ARGS__)

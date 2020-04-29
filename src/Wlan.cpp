@@ -56,8 +56,8 @@ void Wlan::init()
 
   WiFi.onStationModeGotIP([](const WiFiEventStationModeGotIP&)
   {
-    Serial.printf("STA: %s\n", WiFi.SSID().c_str());
-    Serial.printf("IP: %s\n", WiFi.localIP().toString().c_str());
+    //Serial.printf("STA: %s\n", WiFi.SSID().c_str());
+    //Serial.printf("IP: %s\n", WiFi.localIP().toString().c_str());
     WiFi.mode(WIFI_STA);
 
     if (WiFi.SSID() == newWlanCredentials.ssid)
@@ -72,7 +72,7 @@ void Wlan::init()
 
     if (!MDNS.begin(hostName.c_str()))
     {
-      Serial.println("Error MDNS!");
+      //Serial.println("Error MDNS!");
     }
     else
     {
@@ -81,10 +81,10 @@ void Wlan::init()
   });
 
   WiFi.onStationModeDisconnected([](const WiFiEventStationModeDisconnected&) {
-    Serial.println("wifi: disconnect");
+    //Serial.println("wifi: disconnect");
   });
   WiFi.onSoftAPModeStationDisconnected([](const WiFiEventSoftAPModeStationDisconnected&) {
-    Serial.println("wifi: NO AP");
+    //Serial.println("wifi: NO AP");
   });
 
   IPAddress local_IP(192, 168, 66, 1), gateway(192, 168, 66, 1), subnet(255, 255, 255, 0);
@@ -92,8 +92,8 @@ void Wlan::init()
   WiFi.softAP(this->accessPointName.c_str(), APPASSWORD, 5);
 
   WiFi.mode(WIFI_AP_STA);
-  Serial.printf("AP: %s\n", this->accessPointName.c_str());
-  Serial.printf("IP: %s\n", local_IP.toString().c_str());
+  //Serial.printf("AP: %s\n", this->accessPointName.c_str());
+  //Serial.printf("IP: %s\n", local_IP.toString().c_str());
   update();
 }
 
@@ -116,13 +116,13 @@ void Wlan::loadConfig()
     {
       if((strlen(_wifi[i]["SSID"].asString()) >= WLAN_SSID_MAX_LENGTH) || (strlen(_wifi[i]["PASS"].asString()) >= WLAN_PASS_MAX_LENGTH))
       {
-        Serial.println("Wlan::loadConfig: credentials invalid");
+        //Serial.println("Wlan::loadConfig: credentials invalid");
       }
       else
       {
         strcpy(wlanCredentials[i].ssid, _wifi[i]["SSID"].asString());
         strcpy(wlanCredentials[i].password, _wifi[i]["PASS"].asString());
-        Serial.printf("Wlan::loadConfig: ssid = %s, password = %s\n", wlanCredentials[i].ssid, wlanCredentials[i].password);
+        //Serial.printf("Wlan::loadConfig: ssid = %s, password = %s\n", wlanCredentials[i].ssid, wlanCredentials[i].password);
       }
       i++;
     }
@@ -161,7 +161,7 @@ void Wlan::saveConfig()
       JsonObject &_wifi = array.createNestedObject();
       _wifi["SSID"] = wlanCredentials[i].ssid;
       _wifi["PASS"] = wlanCredentials[i].password;
-      Serial.printf("Wlan::saveCredentials: ssid = %s, password = %s\n", wlanCredentials[i].ssid, wlanCredentials[i].password);
+      //Serial.printf("Wlan::saveCredentials: ssid = %s, password = %s\n", wlanCredentials[i].ssid, wlanCredentials[i].password);
     }
   }
 
@@ -203,12 +203,12 @@ void Wlan::addCredentials(const char *ssid, const char *password, bool force)
 {
   if ((strlen(ssid) >= WLAN_SSID_MAX_LENGTH) || (strlen(password) >= WLAN_PASS_MAX_LENGTH))
   {
-    Serial.println("Wlan::addCredentials: credentials invalid");
+    //Serial.println("Wlan::addCredentials: credentials invalid");
   }
   else
   {
 
-    Serial.printf("Wlan::addCredentials: ssid = %s, password = %s, force = %d\n", ssid, password, force);
+    //Serial.printf("Wlan::addCredentials: ssid = %s, password = %s, force = %d\n", ssid, password, force);
     strcpy(newWlanCredentials.ssid, ssid);
     strcpy(newWlanCredentials.password, password);
 
@@ -236,7 +236,7 @@ void Wlan::getCredentials(WlanCredentials *credentials)
 
 void Wlan::update()
 {
-  //Serial.printf("Wlan::update: wifiState = %d\n", wifiState);
+  ////Serial.printf("Wlan::update: wifiState = %d\n", wifiState);
 
   switch (wifiState)
   {
@@ -304,7 +304,7 @@ void Wlan::connectToKnownStations()
       connectTimeout = CONNECT_TIMEOUT;
       credentialIndex = stationIndex;
       WiFi.begin(wlanCredentials[stationIndex].ssid, wlanCredentials[stationIndex].password);
-      Serial.printf("Wlan::connectToStations: SSID = %s, PW = %s\n", wlanCredentials[stationIndex].ssid, wlanCredentials[stationIndex].password);
+      //Serial.printf("Wlan::connectToStations: SSID = %s, PW = %s\n", wlanCredentials[stationIndex].ssid, wlanCredentials[stationIndex].password);
     }
 
     stationIndex++;
@@ -318,7 +318,7 @@ void Wlan::connectToKnownStations()
 
 void Wlan::stopAllRadio()
 {
-  //Serial.println("** Stopping WiFi+BT");
+  ////Serial.println("** Stopping WiFi+BT");
   WiFi.disconnect(true);
   WiFi.mode(WIFI_OFF);
   

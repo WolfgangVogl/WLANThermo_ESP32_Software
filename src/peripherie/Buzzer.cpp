@@ -18,7 +18,8 @@
     
 ****************************************************/
 
-#include <driver/ledc.h>
+//#include <driver/ledc.h>
+#include "Stubs.h"
 #include "Buzzer.h"
 
 Buzzer::Buzzer(uint8_t ioPin, uint8_t channel) : enabled(false)

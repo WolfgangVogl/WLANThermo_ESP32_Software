@@ -24,6 +24,7 @@
 #include "SerialCmd.h"
 #include "WtServer.h"
 #include "DbgPrint.h"
+#include "Stubs.h"
 
 // Forward declaration
 void createTasks();

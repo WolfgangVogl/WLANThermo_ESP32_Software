@@ -21,6 +21,7 @@
 #include "Pitmaster.h"
 #include "DbgPrint.h"
 #include "math.h"
+#include "Stubs.h"
 
 #define PIDKIMAX 95 // ANTI WINDUP LIMIT MAX
 #define PIDKIMIN 0  // ANTI WINDUP LIMIT MIN
@@ -338,7 +339,7 @@ boolean Pitmaster::checkAutoTune()
         {
             this->autoTune->temp[0] = currentTemp;
             this->autoTune->time[0] = time;
-            //Serial.print("0: "); Serial.print(this->autoTune->time[0]); Serial.print(" | "); Serial.println(this->autoTune->temp[0]);
+            ////Serial.print("0: "); //Serial.print(this->autoTune->time[0]); //Serial.print(" | "); //Serial.println(this->autoTune->temp[0]);
 
             // Vmax bestimmen
         }
@@ -363,7 +364,7 @@ boolean Pitmaster::checkAutoTune()
             this->autoTune->temp[1] = currentTemp;
             this->autoTune->temp[2] = currentTemp;
             this->autoTune->time[1] = time;
-            //Serial.print("1: "); Serial.print(this->autoTune->time[1]); Serial.print(" | "); Serial.println(this->autoTune->temp[1]);
+            ////Serial.print("1: "); //Serial.print(this->autoTune->time[1]); //Serial.print(" | "); //Serial.println(this->autoTune->temp[1]);
 
             // Während Überschwinger
         }
@@ -376,7 +377,7 @@ boolean Pitmaster::checkAutoTune()
         else if (this->autoTune->temp[1] > 0 && currentTemp * 1.01 < this->autoTune->temp[2])
         {
             this->autoTune->time[2] = time;
-            //Serial.print("2: "); Serial.print(this->autoTune->time[2]); Serial.print(" | "); Serial.println(this->autoTune->temp[2]);
+            ////Serial.print("2: "); //Serial.print(this->autoTune->time[2]); //Serial.print(" | "); //Serial.println(this->autoTune->temp[2]);
             this->autoTune->value = 25; // Teillast müsste reichen um eine wirkung zu sehen
             this->autoTune->run = 4;
         }
@@ -489,7 +490,7 @@ boolean Pitmaster::checkOpenLid()
             openLid.temp = openLid.ref[0];
             openLid.count = OPL_PAUSE; // TODO: check pause
 
-            Serial.println("OPL");
+            //Serial.println("OPL");
         }
     }
     else
@@ -567,7 +568,7 @@ void Pitmaster::controlActuators()
         {
             // linear link
             linkedvalue = (ceil(this->value * 0.1)) * 10.0;
-            //Serial.println(linkedvalue);
+            ////Serial.println(linkedvalue);
         }
         this->controlServo(linkedvalue, this->profile->spmin, this->profile->spmax);
         
@@ -732,7 +733,7 @@ void Pitmaster::disableActuators(boolean allowdelay)
     if (true == allowdelay && (initActuator == SERVO || initActuator == DAMPER)) {
         this->controlServo(0, this->profile->spmin, this->profile->spmax);
         initActuator = NOAR;
-        Serial.println("ServoOFF");
+        //Serial.println("ServoOFF");
         return;
     }
     
@@ -770,7 +771,7 @@ float Pitmaster::pidCalc()
     // see: http://www.ni.com/white-paper/3782/en/
 
     float x = this->temperature->GetMedianValue(); // IST
-    //Serial.printf("GetMedianValue: %f\n", x);
+    ////Serial.printf("GetMedianValue: %f\n", x);
     float w = this->targetTemperature; // SOLL
 
     // PID Parameter
@@ -800,7 +801,7 @@ float Pitmaster::pidCalc()
     this->profile->jumpth = (w * 0.05);
     if (this->profile->jumpth > (100.0 / kp))
         this->profile->jumpth = 100.0 / kp;
-    //Serial.println(this->profile->jumpth);
+    ////Serial.println(this->profile->jumpth);
     if (diff > this->profile->jumpth)
         this->jump = true; // Memory bis Soll erreicht
     else if (diff <= 0)

@@ -213,7 +213,7 @@ void Cloud::loadConfig()
   if (file)
   {
     String jsonString = file.readString();
-    Serial.printf("url.json: %s\n", jsonString.c_str());
+    //Serial.printf("url.json: %s\n", jsonString.c_str());
     JsonObject &json = jsonBuffer.parseObject(file.readString().c_str());
 
     if (json.success())

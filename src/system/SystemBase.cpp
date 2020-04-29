@@ -21,7 +21,7 @@
 #include <SPI.h>
 
 #if defined(ESP8266)
-  #include <ESP8266WiFi.h
+  #include <ESP8266WiFi.h>
   // #include <spiffs/spiffs.h> // implicity included... avoid typedef conflict
   //#include <rtctime.h>
 #elif defined(ESP32)
@@ -35,6 +35,7 @@
 #include "SystemBase.h"
 #include "Constants.h"
 #include "RecoveryMode.h"
+#include "Stubs.h"
 
 #define STRINGIFY(s) #s
 
@@ -113,8 +114,8 @@ void SystemBase::update()
 
     if (battery->requestsStandby())
     {
-      esp_sleep_enable_timer_wakeup(10);
-      esp_deep_sleep_start();
+      /*esp_sleep_enable_timer_wakeup(10);
+      esp_deep_sleep_start();*/
     }
 
     if (powerSaveModeSupport)
@@ -224,7 +225,7 @@ String SystemBase::getSerialNumber()
 {
   if (strlen(serialNumber) == 0u)
   {
-    uint64_t chipid = ESP.getEfuseMac(); // The chip ID is essentially its MAC address(length: 6 bytes).
+    uint64_t chipid = 0u;//ESP.getEfuseMac(); // The chip ID is essentially its MAC address(length: 6 bytes).
 
     uint8_t chip[6];
     for (int i = 0; i < 6; i++)
@@ -255,7 +256,7 @@ uint8_t SystemBase::getHardwareVersion()
 
 void SystemBase::setPowerSaveMode(boolean enabled)
 {
-  if ((enabled == powerSaveModeEnabled) || (false == powerSaveModeSupport))
+  /*if ((enabled == powerSaveModeEnabled) || (false == powerSaveModeSupport))
     return;
 
   esp_pm_config_esp32_t pm_config;
@@ -266,20 +267,20 @@ void SystemBase::setPowerSaveMode(boolean enabled)
 
   if ((ret = esp_pm_configure(&pm_config)) != ESP_OK)
   {
-    Serial.printf("esp_pm_configure error %s\n", ret == ESP_ERR_INVALID_ARG ? "ESP_ERR_INVALID_ARG" : "ESP_ERR_NOT_SUPPORTED");
+    //Serial.printf("esp_pm_configure error %s\n", ret == ESP_ERR_INVALID_ARG ? "ESP_ERR_INVALID_ARG" : "ESP_ERR_NOT_SUPPORTED");
   }
   else
   {
     powerSaveModeEnabled = enabled;
-  }
+  }*/
 }
 
 String SystemBase::getResetReason(uint8_t cpuId)
 {
-  RESET_REASON reason = rtc_get_reset_reason(cpuId);
+  //RESET_REASON reason = rtc_get_reset_reason(cpuId);
   String resetString;
 
-  switch ( reason)
+  /*switch ( reason)
   {
     case NO_MEAN: resetString = STRINGIFY(NO_MEAN); break;
     case POWERON_RESET: resetString = STRINGIFY(POWERON_RESET); break;
@@ -298,7 +299,7 @@ String SystemBase::getResetReason(uint8_t cpuId)
     case RTCWDT_BROWN_OUT_RESET: resetString = STRINGIFY(RTCWDT_BROWN_OUT_RESET); break;
     case RTCWDT_RTC_RESET: resetString = STRINGIFY(RTCWDT_RTC_RESET); break;
     default: resetString = "UNKNOWN";
-  }
+  }*/
 
   return resetString;
 }

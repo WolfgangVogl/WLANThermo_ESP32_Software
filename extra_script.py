@@ -64,7 +64,7 @@ def convert_web_ui_to_include_files():
             html_file_gzip = gzip.compress(f.read())
         html_file_gzip_hex = binascii.hexlify(html_file_gzip).decode("UTF-8").upper()
         html_file_gzip_hex_array = ["0x" + html_file_gzip_hex[i:i + 2] + ", " for i in range(0, len(html_file_gzip_hex), 2)]
-        char_array_string = "const uint8_t " + web_ui_file_header_array.replace(".", "_") + "[] = {" + str("").join(html_file_gzip_hex_array) + "};"
+        char_array_string = "const uint8_t " + web_ui_file_header_array.replace(".", "_") + "[] PROGMEM = {" + str("").join(html_file_gzip_hex_array) + "};"
         with open(web_ui_target_path + web_ui_file + ".gz.h", 'w') as f:
             f.write(char_array_string)
         os.remove(web_ui_file_inlined)

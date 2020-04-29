@@ -20,7 +20,7 @@
 
 #include <SPI.h>
 #include <Wire.h>
-#include <driver/ledc.h>
+//#include <driver/ledc.h>
 #include "SystemNanoVx.h"
 #include "temperature/TemperatureMax11615.h"
 #include "display/DisplayOled.h"
@@ -52,8 +52,8 @@ enum ledcChannels
   ledcBuzzer = 4
 };
 
-RTC_DATA_ATTR boolean SystemNanoVx::didSleep = false;  // standby ram
-RTC_DATA_ATTR boolean SystemNanoVx::didCharge = false; // standby ram
+/*RTC_DATA_ATTR*/ boolean SystemNanoVx::didSleep = false;  // standby ram
+/*RTC_DATA_ATTR*/ boolean SystemNanoVx::didCharge = false; // standby ram
 
 SystemNanoVx::SystemNanoVx() : SystemBase()
 {
@@ -90,8 +90,8 @@ void SystemNanoVx::hwInit()
     }
 
     didSleep = true;
-    esp_sleep_enable_timer_wakeup(STANDBY_SLEEP_CYCLE_TIME);
-    esp_deep_sleep_start();
+    //esp_sleep_enable_timer_wakeup(STANDBY_SLEEP_CYCLE_TIME);
+    //esp_deep_sleep_start();
   }
 
   didSleep = false;

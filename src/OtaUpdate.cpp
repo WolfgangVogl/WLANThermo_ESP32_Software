@@ -90,7 +90,7 @@ void OtaUpdate::task(void *parameter)
   OtaUpdate *otaUpdate = (OtaUpdate *)parameter;
   boolean success = false;
 
-  Serial.println("OTA update has been started.");
+  //Serial.println("OTA update has been started.");
 
   success = otaUpdate->doFirmwareUpdate();
   
@@ -99,14 +99,14 @@ void OtaUpdate::task(void *parameter)
 
   if(success)
   {
-    Serial.println("OTA update finished.");
+    //Serial.println("OTA update finished.");
     RecoveryMode::zeroResetCounter();
     ESP.restart();
   }
 
   if(!success)
   {
-    Serial.println("OTA update failed.");
+    //Serial.println("OTA update failed.");
     otaUpdate->otaUpdateState = OtaUpdateState::UpdateFailed;
   }
 
@@ -151,13 +151,13 @@ boolean OtaUpdate:: checkForUpdate(String version)
 
 void OtaUpdate::requestVersion(String requestedVersion)
 {
-  Serial.printf("OtaUpdate::requestVersion: %s\n", requestedVersion.c_str());
+  //Serial.printf("OtaUpdate::requestVersion: %s\n", requestedVersion.c_str());
   this->requestedVersion = requestedVersion;
 }
 
 void OtaUpdate::requestFile(String file)
 {
-  Serial.printf("OtaUpdate::requestFile: %s\n", file.c_str());
+  //Serial.printf("OtaUpdate::requestFile: %s\n", file.c_str());
   this->requestedFile = file;
 }
 
@@ -229,7 +229,7 @@ boolean OtaUpdate::downloadFileToSPIFFS(const char *url, const char *fileName)
 
    if (!SPIFFS.begin(true))
   {
-    Serial.println("An Error has occurred while mounting SPIFFS");
+    //Serial.println("An Error has occurred while mounting SPIFFS");
     return false;
   }
 
@@ -237,7 +237,7 @@ boolean OtaUpdate::downloadFileToSPIFFS(const char *url, const char *fileName)
 
   if (!nextionFile)
   {
-    Serial.println("Error opening file");
+    //Serial.println("Error opening file");
     return false;
   }
 
@@ -248,7 +248,7 @@ boolean OtaUpdate::downloadFileToSPIFFS(const char *url, const char *fileName)
   int httpCode = http.GET();
   if (httpCode > 0)
   {
-    Serial.printf("Content-Encoding: %s\n", http.header("Content-Encoding").c_str());
+    //Serial.printf("Content-Encoding: %s\n", http.header("Content-Encoding").c_str());
 
     if (httpCode == HTTP_CODE_OK)
     {
@@ -258,10 +258,10 @@ boolean OtaUpdate::downloadFileToSPIFFS(const char *url, const char *fileName)
   }
   else
   {
-    Serial.printf("Http GET failed: %s\n", http.errorToString(httpCode).c_str());
+    //Serial.printf("Http GET failed: %s\n", http.errorToString(httpCode).c_str());
   }
 
-  Serial.printf("File %s has been written to SPIFFS\n", fileName);
+  //Serial.printf("File %s has been written to SPIFFS\n", fileName);
 
   http.end();
   nextionFile.close();
@@ -286,15 +286,15 @@ boolean OtaUpdate::doFirmwareUpdate()
   switch (retVal)
   {
   case HTTP_UPDATE_FAILED:
-    Serial.printf("HTTP_UPDATE_FAILED Error (%d): %s\n", httpUpdate.getLastError(), httpUpdate.getLastErrorString().c_str());
+    //Serial.printf("HTTP_UPDATE_FAILED Error (%d): %s\n", httpUpdate.getLastError(), httpUpdate.getLastErrorString().c_str());
     break;
 
   case HTTP_UPDATE_NO_UPDATES:
-    Serial.println("HTTP_UPDATE_NO_UPDATES");
+    //Serial.println("HTTP_UPDATE_NO_UPDATES");
     break;
 
   case HTTP_UPDATE_OK:
-    Serial.println("HTTP_UPDATE_OK");
+    //Serial.println("HTTP_UPDATE_OK");
     success = true;
     break;
   }
