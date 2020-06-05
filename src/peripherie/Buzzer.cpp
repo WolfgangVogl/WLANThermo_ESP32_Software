@@ -18,7 +18,16 @@
     
 ****************************************************/
 
+
+#if defined(ESP8266)
+  // FAKE IMPL :: TODO: REAL IMPLEMENTATION (ledc.h)
+  #include "Stubs.h"
+#elif defined(ESP32)
 #include <driver/ledc.h>
+#else
+	#error "Only for ESP8266 or ESP32"
+#endif
+
 #include "Buzzer.h"
 
 Buzzer::Buzzer(uint8_t ioPin, uint8_t channel) : enabled(false)

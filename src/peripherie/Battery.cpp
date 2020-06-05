@@ -24,7 +24,13 @@
 #include "system/SystemBase.h"
 #include "display/DisplayBase.h"
 #include "Settings.h"
+
+#if defined(ESP8266)
+#elif defined(ESP32)
 #include <esp_adc_cal.h>
+#else
+	#error "Only for ESP8266 or ESP32"
+#endif
 
 #define BATTERY_ADC_IO 39u
 #define BATTERTY_CHARGE_IO 35u

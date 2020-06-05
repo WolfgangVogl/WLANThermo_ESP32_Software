@@ -24,6 +24,7 @@
 #include "SerialCmd.h"
 #include "WtServer.h"
 #include "DbgPrint.h"
+#include "Stubs.h"
 
 // Forward declaration
 void createTasks();
@@ -67,7 +68,7 @@ void setup()
 void MainTask(void *parameter)
 {
 
-  TickType_t xLastWakeTime = xTaskGetTickCount();
+  auto xLastWakeTime = xTaskGetTickCount();
 
   for (;;)
   {
