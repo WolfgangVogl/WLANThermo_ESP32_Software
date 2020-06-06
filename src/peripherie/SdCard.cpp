@@ -29,7 +29,7 @@ SdCard::SdCard()
 SdCard::SdCard(uint8_t csPin)
 {
   SD.begin(csPin);
-  uint64_t cardSize = SD.cardSize() / (1024 * 1024);
+  uint64_t cardSize = SD.size() / (1024 * 1024);
   Serial.printf("SD card size: %lluMB\n", cardSize);
 }
 

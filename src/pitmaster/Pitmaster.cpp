@@ -21,6 +21,7 @@
 #include "Pitmaster.h"
 #include "DbgPrint.h"
 #include "math.h"
+#include "Stubs.h"
 
 #define PIDKIMAX 95 // ANTI WINDUP LIMIT MAX
 #define PIDKIMIN 0  // ANTI WINDUP LIMIT MIN

@@ -21,7 +21,8 @@
 #include <SPI.h>
 
 #if defined(ESP8266)
-  #include <ESP8266WiFi.h
+  #include "Stubs.h"
+  #include <ESP8266WiFi.h> 
   // #include <spiffs/spiffs.h> // implicity included... avoid typedef conflict
   //#include <rtctime.h>
 #elif defined(ESP32)
