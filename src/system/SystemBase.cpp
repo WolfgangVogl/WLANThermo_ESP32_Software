@@ -224,16 +224,12 @@ size_t SystemBase::getFlashSize()
 String SystemBase::getSerialNumber()
 {
   if (strlen(serialNumber) == 0u)
-  {
-    uint64_t chipid = ESP.getEfuseMac(); // The chip ID is essentially its MAC address(length: 6 bytes).
-
-    uint8_t chip[6];
-    for (int i = 0; i < 6; i++)
-    {
-      chip[i] = uint8_t((chipid >> 8 * (5 - i)) & 0xFF);
-    }
-
-    snprintf(serialNumber, sizeof(serialNumber), "%02x%02x%02x%02x%02x%02x", chip[5], chip[4], chip[3], chip[2], chip[1], chip[0]);
+  {    
+// ESP8266 DUMMY - TODO TODO TODO TODO
+// ESP8266 DUMMY - TODO TODO TODO TODO
+// ESP8266 DUMMY - TODO TODO TODO TODO
+    return SystemBase_serialNumber;
+    //String(ESP.getChipId(), HEX);
   }
 
   return serialNumber;
@@ -259,25 +255,20 @@ void SystemBase::setPowerSaveMode(boolean enabled)
   if ((enabled == powerSaveModeEnabled) || (false == powerSaveModeSupport))
     return;
 
-  esp_pm_config_esp32_t pm_config;
-  esp_err_t ret;
-  pm_config.max_freq_mhz = 240;
-  pm_config.min_freq_mhz = 240;
-  pm_config.light_sleep_enable = enabled;
-
-  if ((ret = esp_pm_configure(&pm_config)) != ESP_OK)
-  {
-    Serial.printf("esp_pm_configure error %s\n", ret == ESP_ERR_INVALID_ARG ? "ESP_ERR_INVALID_ARG" : "ESP_ERR_NOT_SUPPORTED");
-  }
-  else
-  {
-    powerSaveModeEnabled = enabled;
-  }
+// ESP8266 DUMMY - TODO TODO TODO TODO
+// ESP8266 DUMMY - TODO TODO TODO TODO
+// ESP8266 DUMMY - TODO TODO TODO TODO
 }
 
 String SystemBase::getResetReason(uint8_t cpuId)
 {
-  RESET_REASON reason = rtc_get_reset_reason(cpuId);
+  
+// ESP8266 DUMMY - TODO TODO TODO TODO
+// ESP8266 DUMMY - TODO TODO TODO TODO
+// ESP8266 DUMMY - TODO TODO TODO TODO
+  return ESP.getResetReason();
+  
+  /*
   String resetString;
 
   switch ( reason)
@@ -302,6 +293,7 @@ String SystemBase::getResetReason(uint8_t cpuId)
   }
 
   return resetString;
+  */
 }
 
 boolean SystemBase::getSupportDamper()

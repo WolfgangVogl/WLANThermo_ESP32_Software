@@ -19,6 +19,7 @@
 ****************************************************/
 #pragma once
 
+#include "Stubs.h"
 #include "SystemBase.h"
 #include "temperature/TemperatureBase.h"
 

@@ -20,7 +20,14 @@
 
 #include <SPI.h>
 #include <Wire.h>
+
+#if defined(ESP8266)
+#elif defined(ESP32)
 #include <driver/ledc.h>
+#else
+	#error "Only for ESP8266 or ESP32"
+#endif
+
 #include "SystemNanoVx.h"
 #include "temperature/TemperatureMax11615.h"
 #include "display/DisplayOled.h"
